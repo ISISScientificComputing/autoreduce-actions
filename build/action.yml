@@ -4,6 +4,14 @@ inputs:
   package_name:
     description: "Name of the package. Used to find and call manage.py"
     required: true
+  run_activemq:
+    description: "Whether to run the ActiveMQ container"
+    required: false
+    default: true
+  migrate_creds:
+    description: "Whether to migrate the credentials"
+    required: false
+    default: true
 
 runs:
   using: composite
@@ -15,12 +23,19 @@ runs:
         pip install -e .
       shell: bash
 
-    - name: Migrate credentials and run ActiveMQ Docker
+    - name: Migrate credentials
+      run: |
+        autoreduce-creds-migrate
+      shell: bash
+      pre-if: ${{ inputs.migrate_creds == 'true' }
+
+    - name: Run ActiveMQ Docker
       run: |
         autoreduce-creds-migrate
         # Externals must be after migrating the credentials
         docker run --rm --name activemq -p 61613:61613 -p 8161:8161 -d rmohr/activemq
       shell: bash
+      pre-if: ${{ inputs.run_activemq == 'true' }}
 
     - name: Install test suite dependencies
       run: pip install -r requirements.txt
