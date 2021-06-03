@@ -25,12 +25,12 @@ runs:
 
     - name: Migrate credentials
       run: |
-        [ "true" = "${{ inputs.migrate_creds }}" ] && autoreduce-creds-migrate
+        [ "true" = "${{ inputs.migrate_creds }}" ] && autoreduce-creds-migrate || echo "Skipping credentials migration"
       shell: bash
 
     - name: Run ActiveMQ Docker
       run: |
-        [ "true" = "${{ inputs.run_activemq }}" ] && docker run --rm --name activemq -p 61613:61613 -p 8161:8161 -d rmohr/activemq
+        [ "true" = "${{ inputs.run_activemq }}" ] && docker run --rm --name activemq -p 61613:61613 -p 8161:8161 -d rmohr/activemq || echo "Skipping starting ActiveMQ"
       shell: bash
 
     - name: Install test suite dependencies
