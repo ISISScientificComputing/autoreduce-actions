@@ -31,8 +31,6 @@ runs:
 
     - name: Run ActiveMQ Docker
       run: |
-        autoreduce-creds-migrate
-        # Externals must be after migrating the credentials
         docker run --rm --name activemq -p 61613:61613 -p 8161:8161 -d rmohr/activemq
       shell: bash
       pre-if: ${{ inputs.run_activemq == 'true' }}
