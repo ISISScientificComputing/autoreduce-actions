@@ -4,6 +4,10 @@ inputs:
   package_name:
     description: "Name of the package. Used to find and call manage.py"
     required: true
+  pylint:
+    description: "Whether to run pylint"
+    required: true
+    default: true
 
 runs:
   using: composite
@@ -11,7 +15,7 @@ runs:
   steps:
     - name: Pylint tests
       run: |
-        PYTHONPATH=${{ inputs.package_name }} pylint --load-plugins pylint_django ${{ inputs.package_name }}
+        [ "true" = "${{ inputs.migrate_creds }}" ] && PYTHONPATH=${{ inputs.package_name }} pylint --load-plugins pylint_django ${{ inputs.package_name }} || echo "Skipping pylint check"
       shell: bash
 
     - name: YAPF
