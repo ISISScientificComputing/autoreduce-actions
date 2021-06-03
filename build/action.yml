@@ -12,7 +12,10 @@ inputs:
     description: "Whether to migrate the credentials"
     required: false
     default: true
-
+  migrate_db:
+    description: "Whether to migrate the database"
+    required: false
+    default: true
 runs:
   using: composite
 
@@ -39,5 +42,5 @@ runs:
 
     - name: Setup test environment
       run: |
-        python ${{ inputs.package_name }}/manage.py migrate
+        [ "true" = "${{ inputs.run_activemq }}" ] && python ${{ inputs.package_name }}/manage.py migrate || echo "Skipping database migration"
       shell: bash
