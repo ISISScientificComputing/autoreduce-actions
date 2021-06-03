@@ -12,10 +12,13 @@ runs:
     - name: Pylint tests
       run: |
         PYTHONPATH=${{ inputs.package_name }} pylint --load-plugins pylint_django ${{ inputs.package_name }}
+      shell: bash
 
     - name: YAPF
       run: python -m yapf --parallel --diff --recursive .
+      shell: bash
 
     - name: Vulture
       run: vulture --min-confidence 90 ${{ inputs.package_name }}
+      shell: bash
 
