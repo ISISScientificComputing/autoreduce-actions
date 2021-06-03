@@ -25,15 +25,13 @@ runs:
 
     - name: Migrate credentials
       run: |
-        autoreduce-creds-migrate
+        [ 'true' -e ${{ inputs.migrate_creds == 'true' }} ] && autoreduce-creds-migrate
       shell: bash
-      pre-if: ${{ inputs.migrate_creds == 'true' }
 
     - name: Run ActiveMQ Docker
       run: |
-        docker run --rm --name activemq -p 61613:61613 -p 8161:8161 -d rmohr/activemq
+        [ 'true' -e ${{ inputs.run_activemq == 'true' }} ] && docker run --rm --name activemq -p 61613:61613 -p 8161:8161 -d rmohr/activemq
       shell: bash
-      pre-if: ${{ inputs.run_activemq == 'true' }}
 
     - name: Install test suite dependencies
       run: pip install -r requirements.txt
