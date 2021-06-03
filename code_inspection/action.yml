@@ -1,0 +1,21 @@
+name: Code Inspection
+description: Build Autoreduction in a test environment
+inputs:
+  package_name:
+    description: "Name of the package. Used to find and call manage.py"
+    required: true
+
+runs:
+  using: composite
+
+  steps:
+    - name: Pylint tests
+      run: |
+        PYTHONPATH=${{ inputs.package_name }} pylint --load-plugins pylint_django ${{ inputs.package_name }}
+
+    - name: YAPF
+      run: python -m yapf --parallel --diff --recursive .
+
+    - name: Vulture
+      run: vulture --min-confidence 90 ${{ inputs.package_name }}
+
