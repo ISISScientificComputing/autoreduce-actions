@@ -3,7 +3,7 @@ on: [ push ]
 
 jobs:
   pytest:
-    name: Pytest
+    name: Build
     runs-on: ubuntu-18.04
     strategy:
       fail-fast: false
@@ -26,16 +26,3 @@ jobs:
       - uses: ISISScientificComputing/autoreduce-actions/build@master
         with:
           package_name: autoreduce_actions
-
-      - name: Run unit tests
-        run: >-
-          pytest --cov=autoreduce_actions --cov-report=xml autoreduce_actions
-
-      - uses: codecov/codecov-action@v1
-        with:
-          files: ./coverage.xml
-          name: codecov-umbrella
-          flags: backend
-          fail_ci_if_error: true
-          verbose: true
-
