@@ -36,8 +36,14 @@ runs:
         [ "true" = "${{ inputs.run_activemq }}" ] && docker run --rm --name activemq -p 61613:61613 -p 8161:8161 -d rmohr/activemq || echo "Skipping starting ActiveMQ"
       shell: bash
 
+    - name: Install common test dependencies
+      run: |
+        git clone https://github.com/isisScientificComputing/autoreduce-actions && pip install -r autoreduce-actions/requirements.txt
+      shell: bash
+
     - name: Install test suite dependencies
-      run: pip install -r requirements.txt
+      run: |
+        [ -f "requirements.txt" ] && pip install -r requirements.txt || echo "No additional package requirements.txt found"
       shell: bash
 
     - name: Setup test environment
