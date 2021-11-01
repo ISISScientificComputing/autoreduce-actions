@@ -15,7 +15,7 @@ runs:
   steps:
     - name: Pylint tests
       run: |
-        [ "true" = "${{ inputs.migrate_creds }}" ] && PYTHONPATH=${{ inputs.package_name }} pylint --load-plugins pylint_django ${{ inputs.package_name }} || echo "Skipping pylint check"
+        [ "true" = "${{ inputs.pylint }}" ] && PYTHONPATH=${{ inputs.package_name }} pylint --load-plugins pylint_django ${{ inputs.package_name }} || echo "Skipping pylint check"
       shell: bash
 
     - name: YAPF
