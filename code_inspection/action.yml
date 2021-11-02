@@ -14,8 +14,7 @@ runs:
 
   steps:
     - name: Pylint tests
-      run: |
-        [ "true" = "${{ inputs.pylint }}" ] && PYTHONPATH=${{ inputs.package_name }} pylint --load-plugins pylint_django ${{ inputs.package_name }} || echo "Skipping pylint check"
+      run: PYTHONPATH=${{ inputs.package_name }} pylint --load-plugins pylint_django ${{ inputs.package_name }}
       shell: bash
 
     - name: YAPF
