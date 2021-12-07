@@ -14,7 +14,7 @@ setup(name="autoreduce_actions",
       version="1.0.0",
       description="ISIS Autoreduce common Github actions",
       author="ISIS Autoreduction Team",
-      url="https://github.com/ISISScientificComputing/autoreduce-actions/",
+      url="https://github.com/autoreduction/autoreduce-actions/",
       packages=find_packages(),
       classifiers=[
           "Programming Language :: Python :: 3 :: Only",

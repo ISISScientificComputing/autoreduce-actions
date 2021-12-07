@@ -38,7 +38,7 @@ runs:
 
     - name: Install common test dependencies
       run: |
-        git clone https://github.com/isisScientificComputing/autoreduce-actions && pip install -r autoreduce-actions/requirements.txt
+        git clone https://github.com/autoreduction/autoreduce-actions && pip install -r autoreduce-actions/requirements.txt
       shell: bash
 
     - name: Install test suite dependencies
