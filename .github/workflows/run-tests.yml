@@ -23,6 +23,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
-      - uses: autoreduction/autoreduce-actions/build@master
+      - uses: autoreduction/autoreduce-actions/build@main
         with:
           package_name: autoreduce_actions
