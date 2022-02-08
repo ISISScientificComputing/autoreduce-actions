@@ -8,10 +8,6 @@ inputs:
     description: "Whether to run the ActiveMQ container"
     required: false
     default: true
-  migrate_creds:
-    description: "Whether to migrate the credentials"
-    required: false
-    default: true
   migrate_db:
     description: "Whether to migrate the database"
     required: false
@@ -24,11 +20,6 @@ runs:
       run: |
         python -m pip install --upgrade pip
         pip install -e .
-      shell: bash
-
-    - name: Migrate credentials
-      run: |
-        [ "true" = "${{ inputs.migrate_creds }}" ] && autoreduce-creds-migrate || echo "Skipping credentials migration"
       shell: bash
 
     - name: Run ActiveMQ Docker
