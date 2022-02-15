@@ -4,8 +4,8 @@ inputs:
   package_name:
     description: "Name of the package. Used to find and call manage.py"
     required: true
-  run_activemq:
-    description: "Whether to run the ActiveMQ container"
+  run_kafka:
+    description: "Whether to run the Kafka container"
     required: false
     default: true
   migrate_db:
@@ -22,9 +22,21 @@ runs:
         pip install -e .
       shell: bash
 
-    - name: Run ActiveMQ Docker
+    - name: Run Kafka Broker
       run: |
-        [ "true" = "${{ inputs.run_activemq }}" ] && docker run --rm --name activemq -p 61613:61613 -p 8161:8161 -d rmohr/activemq || echo "Skipping starting ActiveMQ"
+        [ "true" = "${{ inputs.run_kafka }}" ] && 
+        docker run -d --pull=always --name=redpanda-1 --rm \
+-p 9092:9092 \
+-p 9644:9644 \
+docker.vectorized.io/vectorized/redpanda:latest \
+redpanda start \
+--overprovisioned \
+--smp 1  \
+--memory 1G \
+--reserve-memory 0M \
+--node-id 0 \
+--check=false  && sleep 3 && docker exec -it redpanda-1 \
+rpk topic create data_ready --brokers=localhost:9092 || echo "Skipping starting ActiveMQ"
       shell: bash
 
     - name: Install common test dependencies
