@@ -1,46 +1,26 @@
-name: Build Autoreduction
+name: Code Inspection
 description: Build Autoreduction in a test environment
 inputs:
   package_name:
     description: "Name of the package. Used to find and call manage.py"
     required: true
-  run_kafka:
-    description: "Whether to run the Kafka container"
-    required: false
+  pylint:
+    description: "Whether to run pylint"
+    required: true
     default: true
-  migrate_db:
-    description: "Whether to migrate the database"
-    required: false
-    default: true
+
 runs:
   using: composite
 
   steps:
-    - name: Install Autoreduction
-      run: |
-        python -m pip install --upgrade pip
-        pip install -e .
+    - name: Pylint tests
+      run: PYTHONPATH=${{ inputs.package_name }} pylint --load-plugins pylint_django ${{ inputs.package_name }}
       shell: bash
 
-    - name: Run Kafka Broker
-      run: |
-        [ "true" = "${{ inputs.run_kafka }}" ] && 
-        docker run -d --pull=always --name=redpanda-1 --rm -p 9092:9092 -p 9644:9644 docker.vectorized.io/vectorized/redpanda redpanda start --overprovisioned --smp 1  --memory 1G --reserve-memory 0M --node-id 0 --check=false 
-        sleep 3
-        docker exec -it redpanda-1 rpk topic create data_ready --brokers=localhost:9092
+    - name: YAPF
+      run: python -m yapf --parallel --diff --recursive .
       shell: bash
 
-    - name: Install common test dependencies
-      run: |
-        git clone https://github.com/autoreduction/autoreduce-actions && pip install -r autoreduce-actions/requirements.txt
-      shell: bash
-
-    - name: Install test suite dependencies
-      run: |
-        [ -f "requirements.txt" ] && pip install -r requirements.txt || echo "No additional package requirements.txt found"
-      shell: bash
-
-    - name: Setup test environment
-      run: |
-        [ "true" = "${{ inputs.migrate_db }}" ] && python ${{ inputs.package_name }}/manage.py migrate || echo "Skipping database migration"
+    - name: Vulture
+      run: vulture --min-confidence 90 ${{ inputs.package_name }}
       shell: bash
