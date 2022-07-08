@@ -14,7 +14,7 @@ runs:
 
   steps:
     - name: Pylint tests
-      run: PYTHONPATH=${{ inputs.package_name }} pylint --load-plugins pylint_django ${{ inputs.package_name }}
+      run: PYTHONPATH=${{ inputs.package_name }} pylint ${{ inputs.package_name }}
       shell: bash
 
     - name: YAPF
