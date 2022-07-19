@@ -1,0 +1,26 @@
+[build-system]
+requires = ["wheel", "setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "autoreduce_actions"
+version = "1.0.0"
+description = "ISIS Autoreduce common Github actions"
+license = { text = "GNU General Public License" }
+classifiers = ["Programming Language :: Python :: 3"]
+dependencies = [
+    "coveralls==3.3.1",
+    "parameterized==0.8.1",
+    "pylint==2.14.4",
+    "pylint-django==2.5.3",
+    "pytest==7.1.2",
+    "pytest-cov==3.0.0",
+    "pytest-django==4.5.2",
+    "pytest-xdist==2.5.0",
+    "vulture==2.5",
+    "yapf==0.32.0",
+]
+
+[project.urls]
+"Repository" = "https://github.com/autoreduction/actions"
+"Wiki" = "https://github.com/autoreduction/queue-processor/wiki"
