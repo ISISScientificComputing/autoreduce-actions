@@ -19,7 +19,11 @@ dependencies = [
     "pytest-xdist==2.5.0",
     "vulture==2.5",
     "yapf==0.32.0",
+    "pre-commit==2.20.0",
 ]
+
+[project.optional-dependencies]
+dev = []
 
 [project.urls]
 "Repository" = "https://github.com/autoreduction/actions"
