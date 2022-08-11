@@ -12,14 +12,19 @@ inputs:
     description: "Whether to migrate the database"
     required: false
     default: true
+  install_current_repo:
+    description: "Whether to pip install the current package"
+    required: false
+    default: true
 runs:
   using: composite
 
   steps:
     - name: Install Autoreduction
       run: |
+        [ "true" = "${{ inputs.install_current_repo }}" ] &&
         python -m pip install --upgrade pip
-        pip install -e .
+        pip install -e . || echo "Skipping pip installing repository"
       shell: bash
 
     - name: Run Kafka Broker
