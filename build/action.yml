@@ -32,7 +32,7 @@ runs:
 
     - name: Install common test dependencies
       run: |
-        git clone https://github.com/autoreduction/actions && pip install -e actions/
+        pip install git+https://github.com/autoreduction/actions@main
       shell: bash
 
     - name: Setup test environment
